@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atelier — Gestion des commandes</title>
+<meta name="theme-color" content="#2b1d18">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./assets/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/print.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <nav class="sidebar" aria-label="Navigation principale">
+    <div class="brand">
+      <div class="brand-mark">A</div>
+      <div>
+        <div class="brand-name">Atelier</div>
+        <div class="brand-sub">Gestion des commandes</div>
+      </div>
+    </div>
+
+    <a class="nav-link" href="#/commandes" data-hash-prefix="#/commandes"><span class="nav-icon">✉</span><span class="nav-text">Commandes</span></a>
+    <a class="nav-link" href="#/gateaux" data-hash-prefix="#/gateaux"><span class="nav-icon">◈</span><span class="nav-text">Création gâteau</span></a>
+    <a class="nav-link" href="#/recettes" data-hash-prefix="#/recettes"><span class="nav-icon">✎</span><span class="nav-text">Recettes</span></a>
+    <a class="nav-link" href="#/inventaire" data-hash-prefix="#/inventaire"><span class="nav-icon">▤</span><span class="nav-text">Inventaire</span></a>
+    <a class="nav-link" href="#/parametres" data-hash-prefix="#/parametres"><span class="nav-icon">⚙</span><span class="nav-text">Paramètres</span></a>
+
+    <div class="sidebar-foot">Toutes les données restent stockées localement, sur cet appareil.</div>
+  </nav>
+
+  <main class="main">
+    <div id="app-view"></div>
+  </main>
+</div>
+
+<script src="./js/db.js" defer></script>
+<script src="./js/utils.js" defer></script>
+<script src="./js/ui.js" defer></script>
+<script src="./js/router.js" defer></script>
+<script src="./js/views/inventaire.js" defer></script>
+<script src="./js/views/parametres.js" defer></script>
+<script src="./js/views/recettes.js" defer></script>
+<script src="./js/views/gateaux.js" defer></script>
+<script src="./js/views/commandes.js" defer></script>
+<script src="./js/views/devis.js" defer></script>
+<script src="./js/app.js" defer></script>
+</body>
+</html>

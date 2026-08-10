@@ -1,0 +1,52 @@
+/* print.css — mise en page du devis quand on l'imprime / "enregistre en PDF" */
+
+.devis-doc {
+  max-width: 760px;
+  margin: 0 auto;
+  background: #fffdfb;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  padding: 0;
+  overflow: hidden;
+}
+
+.devis-ruban {
+  background: var(--color-ink);
+  color: #f3e9dd;
+  padding: 22px 34px;
+  position: relative;
+}
+.devis-ruban::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 12px;
+  background: radial-gradient(circle at 7px 0, transparent 6px, var(--color-ink) 6.5px) 0 -6px / 14px 12px repeat-x;
+}
+.devis-ruban .devis-titre { font-family: var(--font-display); font-size: 1.7rem; color: #fff; }
+.devis-ruban .devis-num { font-family: var(--font-data); font-size: 0.82rem; color: #d8c6b3; margin-top: 4px; }
+
+.devis-body { padding: 34px; }
+
+.devis-parties { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 26px; flex-wrap: wrap; }
+.devis-bloc h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-ink-faint); margin-bottom: 6px; }
+.devis-bloc p { margin: 0; font-size: 0.92rem; color: var(--color-ink); }
+
+.devis-table { width: 100%; border-collapse: collapse; margin-bottom: 22px; }
+.devis-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; color: var(--color-ink-faint); border-bottom: 2px solid var(--color-ink); padding: 8px 6px; }
+.devis-table td { padding: 10px 6px; border-bottom: 1px solid var(--color-border); font-size: 0.92rem; }
+.devis-table td.num, .devis-table th.num { text-align: right; font-family: var(--font-data); }
+
+.devis-total-row td { border-top: 2px solid var(--color-ink); border-bottom: none; font-weight: 700; font-size: 1.05rem; padding-top: 14px; }
+
+.devis-footnote { margin-top: 30px; font-size: 0.8rem; color: var(--color-ink-faint); text-align: center; }
+
+.no-print { }
+
+@media print {
+  body * { visibility: hidden; }
+  .devis-doc, .devis-doc * { visibility: visible; }
+  .devis-doc { position: absolute; top: 0; left: 0; right: 0; margin: 0; border: none; box-shadow: none; max-width: 100%; }
+  .no-print { display: none !important; }
+  @page { margin: 14mm; }
+}
