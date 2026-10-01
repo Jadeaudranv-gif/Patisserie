@@ -121,3 +121,32 @@ const DB = {
     return { id, type, nom };
   },
 };
+
+// ---- Export de toutes les données en JSON ----
+async function exporterDonnees() {
+  const donnees = {};
+  for (const nomStore of Object.keys(STORES)) {
+    donnees[nomStore] = await DB.getAll(nomStore);
+  }
+
+  const contenu = JSON.stringify(
+    {
+      application: 'atelier-patisserie',
+      version: DB_VERSION,
+      exporteLe: new Date().toISOString(),
+      donnees,
+    },
+    null,
+    2
+  );
+
+  const blob = new Blob([contenu], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `atelier-patisserie-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
