@@ -1,5 +1,5 @@
-// sw.js — cache basique de l'app shell pour un usage hors-ligne après premier chargement
-const CACHE_NAME = 'atelier-cache-v1';
+// sw.js — réseau d'abord, cache en secours (hors-ligne)
+const CACHE_NAME = 'atelier-cache-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -24,7 +24,11 @@ const ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).catch(() => {})
+    caches
+      .open(CACHE_NAME)
+      // cache: 'reload' = on ignore le cache HTTP de GitHub Pages (jusqu'à 10 min)
+      .then((cache) => cache.addAll(ASSETS.map((url) => new Request(url, { cache: 'reload' }))))
+      .catch(() => {})
   );
   self.skipWaiting();
 });
@@ -41,17 +45,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request)
-        .then((response) => {
-          if (response.ok && event.request.url.startsWith(self.location.origin)) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached);
-    })
+    fetch(event.request, { cache: 'no-cache' })
+      .then((response) => {
+        if (response.ok && event.request.url.startsWith(self.location.origin)) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
