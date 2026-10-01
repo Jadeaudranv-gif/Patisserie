@@ -122,7 +122,6 @@ const DB = {
   },
 };
 
-// ---- Export de toutes les données en JSON ----
 async function exporterDonnees() {
   const donnees = {};
   for (const nomStore of Object.keys(STORES)) {
@@ -140,11 +139,25 @@ async function exporterDonnees() {
     2
   );
 
-  const blob = new Blob([contenu], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
+  const nomFichier = `atelier-patisserie-${new Date().toISOString().slice(0, 10)}.json`;
+  const fichier = new File([contenu], nomFichier, { type: 'application/json' });
+
+  // 1) iPhone / iPad : menu Partager (Enregistrer dans Fichiers, Mail, AirDrop...)
+  if (navigator.canShare && navigator.canShare({ files: [fichier] })) {
+    try {
+      await navigator.share({ files: [fichier], title: nomFichier });
+      return;
+    } catch (e) {
+      if (e && e.name === 'AbortError') return; // l'utilisatrice a fermé le menu
+      // sinon on tente le téléchargement classique ci-dessous
+    }
+  }
+
+  // 2) Ordinateur : téléchargement classique
+  const url = URL.createObjectURL(fichier);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `atelier-patisserie-${new Date().toISOString().slice(0, 10)}.json`;
+  a.download = nomFichier;
   document.body.appendChild(a);
   a.click();
   a.remove();
