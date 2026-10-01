@@ -18,3 +18,14 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+// Bouton « Exporter mes données (JSON) » de la barre latérale
+document.getElementById('btn-export-json').addEventListener('click', async () => {
+  try {
+    await exporterDonnees();
+    showToast('Export téléchargé');
+  } catch (e) {
+    console.error(e);
+    showToast("Erreur pendant l'export");
+  }
+});
